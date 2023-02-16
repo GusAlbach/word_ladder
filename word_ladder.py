@@ -28,6 +28,30 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     Whenever it is impossible to generate a word ladder between the two words,
     the function returns `None`.
     '''
+    if start_word == end_word:
+        return [start_word]
+    from collections import deque
+    dictionary = []
+    for line in dictionary_file:
+        dictionary.append(line.strip())
+    start = list([])
+    start += [start_word]
+    q = deque() 
+    q.append(start)
+    while q != []:
+       x = q.popleft()
+       for i in dictionary:
+            if _adjacent(i, x[-1]) == True:
+                if i == end_word:
+                    x.append(i)
+                    answer = x
+                    return answer
+                new = x.copy()
+                new.append(i)
+                q.append(new)
+                dictionary.remove(i)
+                break
+
 
 
 def verify_word_ladder(ladder):
@@ -69,4 +93,3 @@ def _adjacent(word1, word2):
     if count > 1:
         return False
     return True
-
