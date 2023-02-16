@@ -36,11 +36,11 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
         dictionary.append(line.strip())
     start = list([])
     start += [start_word]
-    q = deque() 
+    q = deque()
     q.append(start)
     while q != []:
-       x = q.popleft()
-       for i in dictionary:
+        x = q.popleft()
+        for i in dictionary:
             if _adjacent(i, x[-1]) == True:
                 if i == end_word:
                     x.append(i)
@@ -51,7 +51,6 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
                 q.append(new)
                 dictionary.remove(i)
                 break
-
 
 
 def verify_word_ladder(ladder):
@@ -70,8 +69,6 @@ def verify_word_ladder(ladder):
         if _adjacent(ladder[x], ladder[x + 1]) == False:
             return False
     return True
-
-
 
 
 def _adjacent(word1, word2):
