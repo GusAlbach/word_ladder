@@ -1,7 +1,8 @@
 #!/bin/python3
 
 
-def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
+from copy import deepcopy
+def word_ladder(start_word, end_word, dictionary_file=('words5.dict')):
     '''
     Returns a list satisfying the following properties:
 
@@ -31,6 +32,7 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     if start_word == end_word:
         return [start_word]
     from collections import deque
+    dictionary_file = open('words5.dict')
     dictionary = []
     for line in dictionary_file:
         dictionary.append(line.strip())
@@ -38,20 +40,23 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     start += [start_word]
     q = deque()
     q.append(start)
-    while q != []:
+    while len(q) != 0:
         x = q.popleft()
-        for i in dictionary:
-            if _adjacent(i, x[-1]) == True:
-                if i == end_word:
-                    x.append(i)
+        i = 0
+        while i < len(dictionary):
+            if _adjacent(dictionary[i], x[-1]):
+                if dictionary[i] == end_word:
+                    x.append(dictionary[i])
                     answer = x
                     return answer
-                new = x.copy()
-                new.append(i)
+                new = deepcopy(x)
+                #new = x.copy()
+                new.append(dictionary[i])
                 q.append(new)
-                dictionary.remove(i)
-                break
-
+                dictionary.remove(dictionary[i])
+            else:
+                i += 1
+    return None
 
 def verify_word_ladder(ladder):
     '''
@@ -66,7 +71,7 @@ def verify_word_ladder(ladder):
     if ladder == []:
         return False
     for x in range(len(ladder) - 1):
-        if _adjacent(ladder[x], ladder[x + 1]) == False:
+        if not _adjacent(ladder[x], ladder[x + 1]):
             return False
     return True
 
@@ -87,6 +92,6 @@ def _adjacent(word1, word2):
     for x in range(len(word1)):
         if word1[x] != word2[x]:
             count += 1
-    if count > 1:
-        return False
-    return True
+    if count == 1:
+        return True
+    return False
