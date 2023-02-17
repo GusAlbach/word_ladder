@@ -2,6 +2,8 @@
 
 
 from copy import deepcopy
+
+
 def word_ladder(start_word, end_word, dictionary_file=('words5.dict')):
     '''
     Returns a list satisfying the following properties:
@@ -50,13 +52,13 @@ def word_ladder(start_word, end_word, dictionary_file=('words5.dict')):
                     answer = x
                     return answer
                 new = deepcopy(x)
-                #new = x.copy()
                 new.append(dictionary[i])
                 q.append(new)
                 dictionary.remove(dictionary[i])
             else:
                 i += 1
     return None
+
 
 def verify_word_ladder(ladder):
     '''
